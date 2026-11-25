@@ -1,0 +1,12 @@
+import { expect, test } from "bun:test";
+import { GALLERY_BUDGET, MAX_EDGE, THUMB_EDGE, JPEG_QUALITY, MAX_INPUT_BYTES, MAX_STORED_BYTES, resizedDimensions, crossedThresholds, albumInput } from "../src/lib/gallery-rules";
+import { jpegDimensions } from "../src/lib/gallery-jpeg";
+test("gallery warning budget is exactly 1 GB, not provider quota", () => { expect(GALLERY_BUDGET).toBe(1000000000); });
+test("photos resize to a 1920-pixel longest edge with aspect ratio preserved", () => { expect(MAX_EDGE).toBe(1920); expect(resizedDimensions(4000, 3000)).toEqual({ width: 1920, height: 1440 }); expect(resizedDimensions(500, 800)).toEqual({ width: 500, height: 800 }); });
+test("gallery thumbnails use a smaller longest edge", () => { expect(THUMB_EDGE).toBe(480); expect(resizedDimensions(4000, 3000, THUMB_EDGE)).toEqual({ width: 480, height: 360 }); });
+test("JPEG optimization quality is within the requested 75 to 82 range", () => { expect(JPEG_QUALITY).toBeGreaterThanOrEqual(0.75); expect(JPEG_QUALITY).toBeLessThanOrEqual(0.82); });
+test("70% storage alert starts exactly at its threshold", () => { expect(crossedThresholds(699999999)).toEqual([]); expect(crossedThresholds(700000000)).toEqual([70]); });
+test("85% storage alert starts exactly at its threshold", () => { expect(crossedThresholds(849999999)).toEqual([70]); expect(crossedThresholds(850000000)).toEqual([70, 85]); });
+test("95% storage alert starts exactly at its threshold", () => { expect(crossedThresholds(949999999)).toEqual([70, 85]); expect(crossedThresholds(950000000)).toEqual([70, 85, 95]); });
+test("gallery validates event metadata and bounded upload sizes", () => { expect(albumInput.safeParse({ event_name: "", event_date: "bad", description: "", published: false }).success).toBe(false); expect(MAX_INPUT_BYTES).toBe(20000000); expect(MAX_STORED_BYTES).toBe(5000000); });
+test("server rejects invalid files and embedded GPS-capable metadata", () => { expect(() => jpegDimensions(new Uint8Array([1, 2, 3]))).toThrow(); expect(() => jpegDimensions(new Uint8Array([255,216,255,225,0,2,255,217]))).toThrow("metadata"); });

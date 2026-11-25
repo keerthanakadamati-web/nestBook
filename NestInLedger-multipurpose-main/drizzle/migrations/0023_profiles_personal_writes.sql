@@ -1,0 +1,1 @@
+DROP TRIGGER mandatory_committee_approval ON public.profiles;

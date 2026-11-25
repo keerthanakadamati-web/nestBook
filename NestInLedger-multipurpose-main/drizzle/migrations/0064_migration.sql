@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION public.flat_in_current_society(_flat uuid) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO 'public' AS $$ SELECT EXISTS (SELECT 1 FROM public.flats WHERE id = _flat AND society_id = public.current_society()) $$;
+CREATE OR REPLACE FUNCTION public.in_primary_society() RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO 'public' AS $$ SELECT public.current_society() = (SELECT id FROM public.societies WHERE code = 's1') $$;
+REVOKE ALL ON FUNCTION public.flat_in_current_society(uuid) FROM public, anon;
+REVOKE ALL ON FUNCTION public.in_primary_society() FROM public, anon;
+GRANT EXECUTE ON FUNCTION public.flat_in_current_society(uuid) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.in_primary_society() TO authenticated;
+ALTER POLICY "Same apartment only" ON public.payments USING (public.flat_in_current_society(flat_id)) WITH CHECK (public.flat_in_current_society(flat_id));
+ALTER POLICY "Same apartment only" ON public.maintenance_bills USING (public.flat_in_current_society(flat_id)) WITH CHECK (public.flat_in_current_society(flat_id));
+ALTER POLICY "Same apartment only" ON public.maintenance_reminders USING (public.flat_in_current_society(flat_id)) WITH CHECK (public.flat_in_current_society(flat_id));
+ALTER POLICY "Same apartment only" ON public.complaints USING (public.flat_in_current_society(flat_id)) WITH CHECK (public.flat_in_current_society(flat_id));
+ALTER POLICY "Same apartment only" ON public.society_poll_votes USING (public.flat_in_current_society(flat_id)) WITH CHECK (public.flat_in_current_society(flat_id));
+ALTER POLICY "Labanya settings only" ON public.society_settings USING (public.in_primary_society()) WITH CHECK (public.in_primary_society());
+ALTER POLICY "Labanya fund only" ON public.fund_years USING (public.in_primary_society()) WITH CHECK (public.in_primary_society());

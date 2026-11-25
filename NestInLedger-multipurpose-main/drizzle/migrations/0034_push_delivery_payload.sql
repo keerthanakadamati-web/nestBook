@@ -1,0 +1,1 @@
+ALTER TABLE public.push_delivery_logs ADD COLUMN payload jsonb NOT NULL DEFAULT '{}'::jsonb;

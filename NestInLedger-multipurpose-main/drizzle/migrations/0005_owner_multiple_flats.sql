@@ -1,0 +1,20 @@
+ALTER TABLE public.flats DROP CONSTRAINT IF EXISTS flats_resident_user_id_key;
+CREATE INDEX IF NOT EXISTS flats_resident_user_id_idx ON public.flats(resident_user_id);
+CREATE OR REPLACE FUNCTION public.update_my_flat_tenant(_flat_id uuid, _occupancy text, _tenant_name text, _tenant_phone text, _tenant_email text)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'Please sign in'; END IF;
+  IF _occupancy NOT IN ('owner','rented') THEN RAISE EXCEPTION 'Invalid occupancy'; END IF;
+  IF _occupancy = 'rented' AND (coalesce(trim(_tenant_name),'') = '' OR coalesce(trim(_tenant_phone),'') = '') THEN
+    RAISE EXCEPTION 'Please enter tenant name and mobile number';
+  END IF;
+  UPDATE public.flats SET
+    occupancy = _occupancy,
+    tenant_name = CASE WHEN _occupancy='rented' THEN nullif(trim(_tenant_name),'') END,
+    tenant_phone = CASE WHEN _occupancy='rented' THEN nullif(trim(_tenant_phone),'') END,
+    tenant_email = CASE WHEN _occupancy='rented' THEN nullif(trim(_tenant_email),'') END
+  WHERE id = _flat_id AND resident_user_id = auth.uid();
+  IF NOT FOUND THEN RAISE EXCEPTION 'This flat is not linked to your account'; END IF;
+END $$;
+REVOKE ALL ON FUNCTION public.update_my_flat_tenant(uuid,text,text,text,text) FROM public, anon;
+GRANT EXECUTE ON FUNCTION public.update_my_flat_tenant(uuid,text,text,text,text) TO authenticated;

@@ -1,0 +1,208 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * NestInLedger — Labanya Enclave premium corporate design system.
+ * White surfaces on a neutral canvas, navy primary and navigation,
+ * green = paid, red = outstanding, Inter throughout.
+ * All colours are oklch tokens. Never hardcode colours in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 2px);
+  --radius-2xl: calc(var(--radius) + 4px);
+  --radius-3xl: calc(var(--radius) + 6px);
+  --radius-4xl: calc(var(--radius) + 8px);
+
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Inter", system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-active-foreground: var(--sidebar-active-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-clay: var(--clay);
+  --color-clay-deep: var(--clay-deep);
+  --color-sage: var(--sage);
+  --color-sage-deep: var(--sage-deep);
+  --color-ink: var(--ink);
+  --color-ash: var(--ash);
+
+  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 0.8) inset, 0 1px 2px oklch(0.3 0.04 260 / 0.06), 0 8px 24px -12px oklch(0.3 0.04 260 / 0.14);
+  --shadow-tile: 0 1px 0 0 oklch(1 0 0 / 0.8) inset, 0 1px 2px oklch(0.3 0.04 260 / 0.05), 0 4px 14px -8px oklch(0.3 0.04 260 / 0.12);
+  --shadow-pill: 0 1px 2px oklch(0.3 0.04 260 / 0.12);
+  --shadow-lift: 0 1px 2px oklch(0.3 0.04 260 / 0.06), 0 16px 32px -16px oklch(0.3 0.04 260 / 0.22);
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* brand accents: sage = paid/good (emerald), clay = due/attention (red) */
+  --sage: oklch(0.93 0.05 163);
+  --sage-deep: oklch(0.55 0.13 163);
+  --clay: oklch(0.93 0.033 25);
+  --clay-deep: oklch(0.577 0.21 27);
+
+  /* kept for compatibility with older class names */
+  --cream: oklch(0.973 0.005 250);
+  --paper: oklch(1 0 0);
+  --ink: oklch(0.26 0.045 256);
+  --ash: oklch(0.55 0.02 255);
+
+  --background: oklch(0.982 0.004 255);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  /* deep navy primary */
+  --primary: oklch(0.33 0.08 256);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.955 0.015 255);
+  --secondary-foreground: oklch(0.33 0.08 256);
+  --muted: oklch(0.961 0.005 250);
+  --muted-foreground: var(--ash);
+  --accent: oklch(0.93 0.025 256);
+  --accent-foreground: oklch(0.33 0.08 256);
+  --destructive: oklch(0.577 0.21 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.55 0.02 255 / 0.13);
+  --input: oklch(0.55 0.02 255 / 0.22);
+  --ring: var(--primary);
+
+  /* deep navy sidebar with emerald selected highlight */
+  --sidebar: oklch(0.24 0.05 256);
+  --sidebar-foreground: oklch(0.9 0.012 250);
+  --sidebar-primary: oklch(0.6 0.14 163);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.3 0.055 256);
+  --sidebar-accent-foreground: oklch(0.97 0 0);
+  --sidebar-active: oklch(0.55 0.13 163);
+  --sidebar-active-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(1 0 0 / 0.12);
+  --sidebar-ring: oklch(0.6 0.14 163);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+  }
+
+  h1, h2, h3, h4 { color: var(--foreground); overflow-wrap: anywhere; }
+  input, select, textarea { min-width: 0; }
+  input[type="file"] { max-width: 100%; }
+  input[type="file"]::file-selector-button {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.55rem 1rem;
+    margin-right: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+  }
+  input[type="file"]::file-selector-button:hover { opacity: 0.9; }
+  input[type="file"]:not(.sr-only) { cursor: pointer; padding: 0.4rem; border: 2px dashed color-mix(in oklab, var(--primary) 40%, transparent); border-radius: var(--radius); background: color-mix(in oklab, var(--primary) 5%, transparent); }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+  h1, h2 { letter-spacing: -0.02em; }
+  .tracking-tight { letter-spacing: -0.015em; }
+  .tracking-tighter { letter-spacing: -0.03em; }
+  body { font-feature-settings: "cv11", "ss01"; -webkit-font-smoothing: antialiased; }
+}
+
+@utility rise {
+  opacity: 0;
+  animation: rise 0.5s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@utility ledger {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) + 4px);
+}
+
+@utility glass {
+  background-color: color-mix(in oklab, var(--color-background) 78%, transparent);
+  backdrop-filter: blur(12px) saturate(160%);
+}
+
+@utility live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background-color: currentColor;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background-color: currentColor;
+    animation: live-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes live-ping {
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

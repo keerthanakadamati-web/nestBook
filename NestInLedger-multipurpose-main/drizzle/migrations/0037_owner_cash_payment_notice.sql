@@ -1,0 +1,27 @@
+CREATE OR REPLACE FUNCTION public.submit_payment(_request uuid, _values jsonb, _cash_reviewed boolean DEFAULT false)
+ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO 'public'
+AS $function$
+DECLARE actor uuid:=auth.uid(); privileged boolean; secretary boolean; owner_flat boolean; vals jsonb; old public.payment_requests; pid uuid:=gen_random_uuid(); proposal uuid; recordkey text; k text; flat uuid; amt numeric; paiddate date; meth text;
+BEGIN
+ IF actor IS NULL THEN RAISE EXCEPTION 'Please sign in again.' USING ERRCODE='42501'; END IF;
+ IF _request IS NULL OR jsonb_typeof(_values)<>'object' THEN RAISE EXCEPTION 'A payment request identity is required.'; END IF;
+ FOR k IN SELECT jsonb_object_keys(_values) LOOP IF NOT k=ANY(ARRAY['flat_id','amount','method','status','paid_on','month_covered','reference','notes']) THEN RAISE EXCEPTION 'Payment field is not permitted: %',k; END IF; END LOOP;
+ flat:=(_values->>'flat_id')::uuid; amt:=(_values->>'amount')::numeric; paiddate:=(_values->>'paid_on')::date; meth:=_values->>'method';
+ IF flat IS NULL OR amt IS NULL OR amt<=0 OR amt<>round(amt,2) OR paiddate IS NULL OR paiddate>(now() AT TIME ZONE 'Asia/Kolkata')::date OR meth IS NULL OR meth NOT IN ('cash','upi') OR nullif(btrim(_values->>'month_covered'),'') IS NULL THEN RAISE EXCEPTION 'Enter a valid amount, actual payment date and payment description.'; END IF;
+ privileged:=public.has_permission('admin.write'); secretary:=public.has_role(actor,'secretary') AND NOT privileged;
+ owner_flat:=EXISTS(SELECT 1 FROM public.flats WHERE id=flat AND resident_user_id=actor);
+ IF NOT privileged AND NOT secretary AND NOT owner_flat THEN RAISE EXCEPTION 'You cannot record a payment for this flat.' USING ERRCODE='42501'; END IF;
+ IF _cash_reviewed AND NOT (privileged OR secretary) THEN RAISE EXCEPTION 'Committee review required.' USING ERRCODE='42501'; END IF;
+ -- Owner-reported cash stays pending until the Treasurer confirms it was received.
+ vals:=jsonb_build_object('flat_id',flat,'amount',amt,'method',meth,'status',CASE WHEN meth='cash' AND (privileged OR secretary) THEN 'confirmed' ELSE 'pending' END,'paid_on',paiddate,'month_covered',btrim(_values->>'month_covered'),'reference',CASE WHEN meth='upi' THEN nullif(btrim(_values->>'reference'),'') ELSE NULL END,'notes',nullif(btrim(_values->>'notes'),''));
+ IF meth='upi' AND vals->>'reference' IS NULL THEN RAISE EXCEPTION 'Enter the bank transaction reference.'; END IF;
+ PERFORM pg_advisory_xact_lock(hashtextextended('payment-request:'||actor||':'||_request,0));
+ SELECT * INTO old FROM public.payment_requests WHERE actor_id=actor AND request_id=_request;
+ IF FOUND THEN IF old.payload IS DISTINCT FROM vals OR old.cash_reviewed IS DISTINCT FROM _cash_reviewed THEN RAISE EXCEPTION 'This request was already used for different payment details.' USING ERRCODE='23505'; END IF; RETURN jsonb_build_object('payment_id',old.payment_id,'proposal_id',old.proposal_id,'pending',old.proposal_id IS NOT NULL,'replayed',true); END IF;
+ IF meth='upi' THEN PERFORM pg_advisory_xact_lock(hashtextextended('bank-reference:'||lower(vals->>'reference'),0)); IF EXISTS(SELECT 1 FROM public.payments WHERE method='upi' AND lower(btrim(reference))=lower(vals->>'reference')) OR EXISTS(SELECT 1 FROM public.payment_requests r JOIN public.change_proposals p ON p.id=r.proposal_id WHERE p.status='pending' AND r.payload->>'method'='upi' AND lower(r.payload->>'reference')=lower(vals->>'reference')) THEN RAISE EXCEPTION 'This bank reference has already been submitted. Review the existing payment.' USING ERRCODE='23505'; END IF; END IF;
+ IF meth='cash' THEN PERFORM pg_advisory_xact_lock(hashtextextended('cash-review:'||flat||':'||paiddate,0)); IF NOT _cash_reviewed AND (EXISTS(SELECT 1 FROM public.payments WHERE flat_id=flat AND method='cash' AND amount=amt AND paid_on=paiddate AND status<>'rejected') OR EXISTS(SELECT 1 FROM public.payment_requests r JOIN public.change_proposals p ON p.id=r.proposal_id WHERE p.status='pending' AND r.payload->>'method'='cash' AND (r.payload->>'flat_id')::uuid=flat AND (r.payload->>'amount')::numeric=amt AND (r.payload->>'paid_on')::date=paiddate)) THEN RAISE EXCEPTION 'A matching cash payment already exists. Check its receipt before recording a separate payment.' USING ERRCODE='23505'; END IF; IF _cash_reviewed AND vals->>'notes' IS NULL THEN RAISE EXCEPTION 'Add a note explaining why this is a separate cash payment.'; END IF; END IF;
+ IF secretary THEN proposal:=public.submit_change_bounded_legacy('payments','create','',vals); SELECT record_key INTO recordkey FROM public.change_proposals WHERE id=proposal; pid:=recordkey::uuid; INSERT INTO public.payment_requests(actor_id,request_id,payload,payment_id,proposal_id,cash_reviewed) VALUES(actor,_request,vals,pid,proposal,_cash_reviewed);
+ ELSE INSERT INTO public.payment_requests(actor_id,request_id,payload,payment_id,cash_reviewed) VALUES(actor,_request,vals,pid,_cash_reviewed); INSERT INTO public.payments(id,flat_id,amount,method,status,paid_on,month_covered,reference,notes,recorded_by) SELECT pid,x.flat_id,x.amount,x.method,x.status,x.paid_on,x.month_covered,x.reference,x.notes,actor FROM jsonb_populate_record(NULL::public.payments,vals) x;
+ END IF;
+ RETURN jsonb_build_object('payment_id',pid,'proposal_id',proposal,'pending',proposal IS NOT NULL,'replayed',false);
+END $function$;

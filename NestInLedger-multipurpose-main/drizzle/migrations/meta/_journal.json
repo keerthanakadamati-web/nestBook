@@ -1,0 +1,503 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790478015555,
+      "tag": "0000_labanya_enclave_mvp",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790480086127,
+      "tag": "0001_expenses",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790481104570,
+      "tag": "0002_fund_years_expense_month",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790581836566,
+      "tag": "0003_flat_occupancy_tenant",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790672359226,
+      "tag": "0004_owner_update_tenant",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790673453097,
+      "tag": "0005_owner_multiple_flats",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791532414301,
+      "tag": "0006_announcements",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791636202200,
+      "tag": "0007_maintenance_reminders",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791636704874,
+      "tag": "0008_reminder_emails",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791798058370,
+      "tag": "0009_reminder_emails_daily",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792728670476,
+      "tag": "0010_extend_committee_role_enum",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792728717690,
+      "tag": "0011_committee_permission_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792728918377,
+      "tag": "0012_finance_summary_read_boundary",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792729091989,
+      "tag": "0013_enforce_treasurer_finance_only_reads",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792729713024,
+      "tag": "0014_mandatory_president_approval",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1792731053348,
+      "tag": "0015_secure_financial_reports",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1792732954644,
+      "tag": "0016_admin_read_existing_approval_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1792736502611,
+      "tag": "0017_effective_maintenance_and_reminder_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1792736625619,
+      "tag": "0018_effective_rate_report_totals",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1792737606975,
+      "tag": "0019_sync_existing_reminder_timing",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1792991169327,
+      "tag": "0020_private_complaints_workflow",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1792991592350,
+      "tag": "0021_complaint_reopened_progress_updates",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1792992964504,
+      "tag": "0022_user_display_profiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1792993239468,
+      "tag": "0023_profiles_personal_writes",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1793003998785,
+      "tag": "0024_private_apartment_event_gallery",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1793004055989,
+      "tag": "0025_gallery_operational_measurement_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1793007246970,
+      "tag": "0026_recurring_essential_expenses",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1793078783020,
+      "tag": "0027_recurring_expense_safeguards",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1793078834716,
+      "tag": "0028_recurring_audit_table_dispatch",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1793167589605,
+      "tag": "0029_recurring_operational_audit_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1793613196635,
+      "tag": "0030_accounting_write_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1793613240896,
+      "tag": "0031_reconciled_account_projections",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1793618386112,
+      "tag": "0032_push_notification_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1793618415398,
+      "tag": "0033_push_tables_personal_exemption",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1793618469072,
+      "tag": "0034_push_delivery_payload",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1793619172893,
+      "tag": "0035_push_event_dispatch",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1793622039991,
+      "tag": "0036_treasurer_payment_and_expense_approvals",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1793623016277,
+      "tag": "0037_owner_cash_payment_notice",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1793623374091,
+      "tag": "0038_treasurer_payment_configuration",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1793624460569,
+      "tag": "0039_society_documents",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1793625146307,
+      "tag": "0040_shared_complaints_visibility",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1793684625252,
+      "tag": "0041_fix_guard_and_move_admin",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1793696210029,
+      "tag": "0042_protect_flat_delete",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1793701168077,
+      "tag": "0043_society_directory",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1793765238898,
+      "tag": "0044_report_reject_withdraw",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1793958729458,
+      "tag": "0045_equipment_amc_logbook",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1793960196642,
+      "tag": "0046_society_polls",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1793961191045,
+      "tag": "0047_poll_alerts_and_voter_visibility",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1794304757443,
+      "tag": "0048_website_license_renewal",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1794478734646,
+      "tag": "0049_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1794661151312,
+      "tag": "0050_restrict_settings_rates_reads",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "7",
+      "when": 1794891911582,
+      "tag": "0051_support_tickets",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1795149823805,
+      "tag": "0052_owner_occupied_poll_voting",
+      "breakpoints": true
+    },
+    {
+      "idx": 53,
+      "version": "7",
+      "when": 1795409003922,
+      "tag": "0053_societies_and_flat_details",
+      "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1795409671409,
+      "tag": "0054_society_flat_import",
+      "breakpoints": true
+    },
+    {
+      "idx": 55,
+      "version": "7",
+      "when": 1795410023632,
+      "tag": "0055_public_society_lookup",
+      "breakpoints": true
+    },
+    {
+      "idx": 56,
+      "version": "7",
+      "when": 1795411321944,
+      "tag": "0056_society_committee",
+      "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "7",
+      "when": 1795412730826,
+      "tag": "0057_apartment_isolation",
+      "breakpoints": true
+    },
+    {
+      "idx": 58,
+      "version": "7",
+      "when": 1795413676448,
+      "tag": "0058_society_name_and_admin_summary",
+      "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1795417988149,
+      "tag": "0059_committee_board_and_flat_registrations",
+      "breakpoints": true
+    },
+    {
+      "idx": 60,
+      "version": "7",
+      "when": 1795420144610,
+      "tag": "0060_flat_registration_owner_email",
+      "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "7",
+      "when": 1795421050330,
+      "tag": "0061_owner_update_flat_details",
+      "breakpoints": true
+    },
+    {
+      "idx": 62,
+      "version": "7",
+      "when": 1795426887613,
+      "tag": "0062_president_flat_register",
+      "breakpoints": true
+    },
+    {
+      "idx": 63,
+      "version": "7",
+      "when": 1795430943845,
+      "tag": "0063_payment_proofs_storage",
+      "breakpoints": true
+    },
+    {
+      "idx": 64,
+      "version": "7",
+      "when": 1795434683942,
+      "tag": "0064_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 65,
+      "version": "7",
+      "when": 1795496128999,
+      "tag": "0065_private_legal_documents",
+      "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "7",
+      "when": 1795496411043,
+      "tag": "0066_legal_document_direct_write_lock",
+      "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1795505045494,
+      "tag": "0067_pilot_terms_acceptance",
+      "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "7",
+      "when": 1795505244204,
+      "tag": "0068_pilot_acceptance_rpc_only_grants",
+      "breakpoints": true
+    },
+    {
+      "idx": 69,
+      "version": "7",
+      "when": 1795505531038,
+      "tag": "0069_public_pilot_terms_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 70,
+      "version": "7",
+      "when": 1795509290555,
+      "tag": "0070_multi_society_maintenance_settings",
+      "breakpoints": true
+    }
+  ]
+}

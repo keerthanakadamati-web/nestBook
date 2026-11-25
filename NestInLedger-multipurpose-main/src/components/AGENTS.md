@@ -1,0 +1,3 @@
+- Gallery metadata uses the shared proposal/audit workflow; private signed-upload reservations are verified from actual JPEG bytes before association-owned photos can be accepted. Operational measurements and recipient alerts have RPC-only writes, exempt from the administrative guard so Secretary measurement/read acknowledgement cannot bypass metadata approvals.
+- Gallery downloads are prepared in the authenticated browser before a separate download click; metadata exports omit signed URLs and database backups exclude the private photo files.
+- Society helper is read-only (RLS reads as the user); it only drafts complaints, submitted via submit_complaint.

@@ -1,0 +1,1 @@
+CREATE POLICY "Admin read approval history" ON public.change_proposals FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'admin'::public.app_role));
